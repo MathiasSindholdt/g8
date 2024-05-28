@@ -1,0 +1,86 @@
+<html lang="en">
+<head>
+  <!DOCTYPE html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>My Website</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="Webpage_Scripts/Webpage_Management_Script.js"></script>
+</head>
+<body>
+    <form>
+        <div class="container">
+            <h1>Management Page</h1>
+            <div class="add-user">
+                <h2>Add User:</h2>
+                <div class="form-group">
+                    <label for="usernameInput">Username:</label>
+                    <input type="text" id="usernameInput" value="">
+                </div>
+                <div class="form-group">
+                    <label for="userDiscord">User Discord:</label>
+                    <input type="text" id="userDiscord" value="">
+                </div>
+                <div class="form-group">
+                    <label for="userTrello">User Trello:</label>
+                    <input type="text" id="userTrello" value="">
+                </div>
+            </div>
+        </div>
+        <ol id="demo" data-role="listview"></ol><br>
+        <input type='button' onclick='addUserFromInput()' value='Add User'/>
+        <br>
+        <br>
+        <br>
+        <h2>Roles</h2>
+            <h3>Create a Role:</h3>
+                <input type="text" id="roleInput" value=""><br>
+                <input type='button' onclick='createRole()' value='Add Role'/><br>
+                <div id="successPopup" class="success-popup"></div>
+                <ol id="roleList"></ol><br>
+                <label for="assignUser">Assign User:</label>
+                <select onchange="updateRoleDropdown()" id="assignUser">
+                    <option value="">--Select a user--</option>
+                </select>
+                <label for="assignRole">to Role:</label>
+                <select id="discordRolesDropdown" >
+                    <option value="">--Select a role--</option>
+                </select>
+            <input type="button" onclick="assignAndRemoveRole()" value="Assign">
+            <br>
+            <br>
+            <br>
+            <br>
+        <h2>Trello</h2>
+            <h3>Fetch Trello Board</h3>
+                <input type="text" id="boardTitleInput" placeholder="Enter board title" >
+                <input type=button onclick="getBoardInfo()" value="Fetch Board"></button>
+                <br>
+                <ul id="cardList"></ul>
+                <meta http-equiv='cache-control' content='no-cache'> 
+                <meta http-equiv='expires' content='0'> 
+                <meta http-equiv='pragma' content='no-cache'>
+    </form>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded');
+                getUsers();
+                fetchDiscordRoles();
+                const textInputs = document.querySelectorAll('input[type="text"]');
+                textInputs.forEach(input => {
+                    input.addEventListener('keypress', function(event) {
+                        if (event.key === 'Enter') {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                    });
+                });
+                const button = document.querySelector('input[type="button"]');
+                button.addEventListener('keypress', function(event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                });
+            });
+        </script>
+    </body>
+</html>

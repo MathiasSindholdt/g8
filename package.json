@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "axios": "^1.6.8",
+    "body-parser": "^1.20.2",
+    "cron": "^3.1.7",
+    "discord.js": "^14.15.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mysql": "^2.18.1",
+    "node-cron": "^3.0.3"
+  },
+  "name": "aau-p2-g8",
+  "description": "``` json\r {\r     \"placeholder1\": text1, \r     \"placeholder2\": text2\r }\r ```",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

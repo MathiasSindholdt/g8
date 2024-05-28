@@ -1,0 +1,117 @@
+
+#+title:  AAU-P2-G8
+* Table of Contents                                                     :TOC:
+- [[#prerequsites][Prerequsites]]
+  - [[#hardware][Hardware]]
+  - [[#software][Software]]
+- [[#first-time-setup][First time setup]]
+  - [[#ngrok][Ngrok]]
+  - [[#github-webhook][Github Webhook]]
+  - [[#trello-webhook][Trello Webhook]]
+  - [[#server][Server]]
+- [[#management-page][Management page]]
+
+#+BEGIN_QUOTE
+NOTE: .env must be populated by your relevant information such as ngrok link, Discord server id, Trello Board id, Trello API key, Trello Token, Discord token, and Discord Client id.
+#+END_QUOTE
+
+* Prerequsites 
+Before you can use this project. You'll need a few prerequsites which are listed below.
+** Hardware
+- Computer/Server/Raspberry PI
+   You will need a device to host this project, due to the nature of the program this device should ideally be running 24/7. The Project doesn't have high requirements but needs at least 60-120mb of RAM to run correctly, ideally more. We reccomend having a dedicated machine to run the project but you could also run it on your desktop.
+   
+** Software
+You will need a few pieces of software to poperly run the project.
+
+*** Linux
+For linux machines you will need the following packages.
+- screen
+  - This is used for a convinient way to run terminal application in the backround
+- node.js (and npm if your package manager requires you to install it separately)
+  - This is needed to run javascript files
+- ngrok (or similar)
+  - This is used to forward localhost to the internet so webhooks can be used correctly alternativly you could use a URL you own.
+
+*** Windows
+- node.js
+  - This is needed to run javascript files
+- ngrok (or similar)
+  - This is used to forward localhost to the internet so webhooks can be used correctly alternativly you could use a URL you own.
+
+*** NPM Packages
+The following npm packages are require no matter what operating system you use.
+- express
+- dotenv
+- discord.js
+- node-cron
+- axios
+
+  
+* First time setup
+After all requirements have been met then it's time to do the first time setup
+** Ngrok
+*** Linux (reccomended)
+   First we'll set up ngrok. We do this by first creating a screen session. (this is optional but reccomended) Then we run the ngrok command on port 3000. (If it's the first time you use ngrok then you'll have to do some account set up but you should be able to figure it out without too much difficulty)
+   #+begin_src sh
+     screen -R ngrok
+     ngrok http 3000
+   #+end_src
+now you can press <Ctrl+a d> to disconnect the session and you can reattach the session at anytime by rerunning the screen command 
+*** Windows
+On windows you'll need to run Ngrok.exe and then run the following command. (If it's the first time you use ngrok then you'll have to do some account set up but you should be able to figure it out without too much difficulty)
+#+begin_src bat
+          ngrok http 3000
+#+end_src
+** Github Webhook
+To set up the github webhook you'll need to have set up ngrok or similar. When you have it set up have the administrator of your Github repo go into the settings page.
+#+CAPTION: The settings option on github
+[[./img/GithubSetting.png]]
+
+Then go to the "webhooks" section of the settings.
+#+CAPTION: The webhook section in settings
+[[./img/WebhookSetting.png]]
+
+Then click the add webhook button and then you'll be greeted by the following page:
+#+CAPTION: The webhook page 
+[[./img/WebhookPage.png]]
+
+Then paste your ngrok link into the Payload URL field and add "/github-webhook" to the end of the link. Then change the content type to "application/json".
+under the "Which events would you like to trigger this webhook?" section. Select "Send me everything". Then just press the add webhook button and you're done. (NOTE: if you resart ngrok you may have to change your webhook link to the new ngrok link and you may have to create the webhook from scratch) 
+
+
+** Trello Webhook
+To setup the Trello webhook you'll have to create a powerup for the project. This is done by going to this [[https://trello.com/power-ups/admin ][Link]] you'll then be greated by this page:
+[[./img/TrelloPowerupPage.png]]
+Then press the "New" button to create a new powerup. Then you need to fill out the following page:
+[[./img/NewPowerup.png]]
+Then press the "API key" section:
+[[./img/APIKeySection.png]]
+Then press the "Gernerate new API key" button.
+[[./img/GenerateAPIKey.png]]
+You have finished gerenerating your API key and are almost readu to fully use the project.
+[[./img/GeneratedAPIKey.png]]
+Now copy the the api key into the .env file.
+** Server
+First we'll set up the server (the program running on your machine)
+*** Linux (reccomeded)
+ Now we want to run  actual server.
+ We do this by running the following commands
+   #+begin_src sh
+     screen -R AAU-server
+     ./run_program.sh
+   #+end_src
+If the second command doesn't work you might need to give it permissions to be executed with the following command.
+#+begin_src sh
+  chmod +x run_program.sh
+#+end_src
+now you can press <Ctrl+a d> to disconnect the session and you can reattach the session at anytime by rerunning the screen command
+
+*** Windows
+On windows you start the server by running run_program.bat this can be done in the same way you run any other program or by running the following command while in the correct folder.
+#+begin_src bat
+          start run_program.bat
+#+end_src
+
+* Management page
+The primary way to configure this project is through our management page that you can find on the link you get from ngrok under "Forwarding" by following that link you'll get to the management dashboard where you can configure users, roles and your Trello automations. On Trello you need to have the following lists "To Be Determined" (This is your catch all which the service wont intergfere with), "To Do", "Ongoing" , "Review" and "Done" you can have more lists, but the service wont move cards into these, but it can move the cards FROM these.
